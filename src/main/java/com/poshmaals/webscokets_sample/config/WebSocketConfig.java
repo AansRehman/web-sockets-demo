@@ -20,8 +20,6 @@ public class WebSocketConfig implements WebSocketConfigurer {
         this.chatSocketHandler = chatSocketHandler;
     }
 
-//    @Autowired  // Make sure to inject the bean
-//    private ChatSocketHandler chatSocketHandler;
 
     @Override
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {

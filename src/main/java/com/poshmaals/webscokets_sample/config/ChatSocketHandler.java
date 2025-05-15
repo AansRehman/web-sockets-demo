@@ -5,6 +5,7 @@ import com.poshmaals.webscokets_sample.model.ChatMessage;
 import com.poshmaals.webscokets_sample.model.Client;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.*;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
@@ -19,6 +20,7 @@ public class ChatSocketHandler extends TextWebSocketHandler {
 
     private static final Logger log = LoggerFactory.getLogger(ChatSocketHandler.class);
     private final ObjectMapper objectMapper = new ObjectMapper();
+
     private final Map<String, WebSocketSession> clientSessions = new ConcurrentHashMap<>();
     private final Map<String, Client> registeredClients = new ConcurrentHashMap<>();
     private final List<ChatResponse> chatHistory = new CopyOnWriteArrayList<>();
@@ -26,7 +28,9 @@ public class ChatSocketHandler extends TextWebSocketHandler {
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
         // Initial connection doesn't have client ID yet
+        clientSessions.put(session.getId(), session);
         log.info("New connection established: {}", session.getId());
+
     }
 
     @Override

@@ -1,7 +1,9 @@
 package com.poshmaals.webscokets_sample.controllers;
 
 import com.poshmaals.webscokets_sample.config.ChatSocketHandler;
+import com.poshmaals.webscokets_sample.config.WebSocketServer;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -33,5 +35,14 @@ public class ServerMessageController {
     @GetMapping("/connected-clients")
     public List<ChatSocketHandler.Client> getConnectedClients() {
         return chatSocketHandler.getConnectedClients();
+    }
+
+    @PostMapping("/send")
+    public ResponseEntity<?> sendMessageToClient(
+            @RequestParam String clientName,
+            @RequestParam String message) {
+
+        WebSocketServer.sendMessageToClient(clientName, message);
+        return ResponseEntity.ok("Message sent to " + clientName);
     }
 }
