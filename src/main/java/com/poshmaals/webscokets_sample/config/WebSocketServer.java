@@ -17,10 +17,13 @@ public class WebSocketServer {
     //    static hashMap to store connections
     private static ConcurrentHashMap<String, Session> clientConnections = new ConcurrentHashMap<>();
 
+    private ChatSocketHandler chatSocketHandler;
+
     @OnOpen
     public void onOpen(Session session, @PathParam("clientName") String clientName) {
         clientConnections.put(clientName, session);
         System.out.println("Connection opened for client: " + clientName);
+        log.info(chatSocketHandler.getConnectedClients().toString());
     }
 
     @OnMessage
@@ -50,6 +53,7 @@ public class WebSocketServer {
     // be called in API flow. where you have developed the api and password
     // clientId or name
     public static void sendMessageToClient(String clientName, String message) {
+
         try {
             log.info(clientConnections.toString());
             Session clientSession = clientConnections.get(clientName);

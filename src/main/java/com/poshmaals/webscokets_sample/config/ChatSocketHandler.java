@@ -27,10 +27,10 @@ public class ChatSocketHandler extends TextWebSocketHandler {
 
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
+        log.info("clientSessions: "+clientSessions);
         // Initial connection doesn't have client ID yet
         clientSessions.put(session.getId(), session);
         log.info("New connection established: {}", session.getId());
-
     }
 
     @Override
